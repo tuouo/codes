@@ -1,0 +1,39 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+def preprocess(tarStr):
+	# get next offset to compare
+    sLen = len(tarStr)
+    p = [0] * sLen
+    j = 0
+    for i in range(1, sLen):
+        while j > 0  and  tarStr[j] != tarStr[i]:
+            j = p[j - 1]
+        if tarStr[j] == tarStr[i]:
+            j += 1
+        p[i] = j
+    return p
+
+def kmp(findStr, tar, start = 0):
+	# only return first begin index
+    pre = preprocess(tar)
+    tLen = len(tar)
+    p = 0
+    for i in range(start, len(findStr)):
+        while p > 0 and tar[p] != findStr[i]:
+            p = pre[p - 1]
+        if tar[p] == findStr[i]:
+            p += 1
+        if p == tLen:
+            return i - tLen + 1
+    return -1
+
+import unittest
+tar = 'ababacb'
+class kmpTest(unittest.TestCase):
+    def test_pre(self):
+        self.assertEqual(preprocess(tar), [0,0,1,2,3,0,0])
+    def test_kmp(self):
+        self.assertEqual(kmp('aababacb', tar), 1)
+
+if __name__ == '__main__':
+    unittest.main()
