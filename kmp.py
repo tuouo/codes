@@ -13,15 +13,15 @@ def preprocess(tarStr):
         p[i] = j
     return p
 
-def kmp(findStr, tar, start = 0):
+def kmp(findStr, tarStr, start = 0):
 	# only return first begin index
-    pre = preprocess(tar)
-    tLen = len(tar)
+    pre = preprocess(tarStr)
+    tLen = len(tarStr)
     p = 0
     for i in range(start, len(findStr)):
-        while p > 0 and tar[p] != findStr[i]:
+        while p > 0 and tarStr[p] != findStr[i]:
             p = pre[p - 1]
-        if tar[p] == findStr[i]:
+        if tarStr[p] == findStr[i]:
             p += 1
         if p == tLen:
             return i - tLen + 1
