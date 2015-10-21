@@ -24,16 +24,17 @@ def kmp(findStr, tarStr, start = 0):
         if tarStr[p] == findStr[i]:
             p += 1
         if p == tLen:
-            return i - tLen + 1
+            return i - tLen + 1 - start
     return -1
 
 import unittest
-tar = 'ababacb'
 class kmpTest(unittest.TestCase):
     def test_pre(self):
-        self.assertEqual(preprocess(tar), [0,0,1,2,3,0,0])
+        self.assertEqual(preprocess('ababacb'), [0,0,1,2,3,0,0])
     def test_kmp(self):
-        self.assertEqual(kmp('aababacb', tar), 1)
+        self.assertEqual(kmp('aababacb', 'ababac', start = 1), 0)
+    def test_kmp2(self):
+        self.assertEqual(kmp('aababacb', 'acb'), 5)
 
 if __name__ == '__main__':
     unittest.main()
