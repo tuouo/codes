@@ -15,7 +15,7 @@ class tBubbleSort(unittest.TestCase):
         self.arr = [3,5,9,8,4,2,1,0,-6,12,-8]
         self.result = [-8,-6,0,1,2,3,4,5,8,9,12]
 
-    def test_ss(self):
+    def test_bubble(self):
         self.assertEqual(bubbleSort(self.arr), self.result)
 
 if __name__ == '__main__':
