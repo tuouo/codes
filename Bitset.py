@@ -6,4 +6,8 @@
 # print(sys.maxsize)
 
 class BitSet(object):
-    
+    def __init__(self, nbits):
+        self.nbits = nbits
+
+    def __init__(self):
+    	self.nbits = BITS_PER_WORD
