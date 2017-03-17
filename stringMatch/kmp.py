@@ -1,32 +1,32 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-    Knuth-Morris-Pratt
+Knuth-Morris-Pratt
 """
 import unittest
 
 
-def pre_process(target):
+def pre_process(pattern):
     # get next offset (k) to compare
     # target[0 ~ k-1] == target[j-k ~ j-1]
-    j, p = 0, [0] * len(target)
-    for i in range(1, len(target)):
-        while j > 0 and target[j] != target[i]:
+    j, p = 0, [0] * len(pattern)
+    for i in range(1, len(pattern)):
+        while j > 0 and pattern[j] != pattern[i]:
             j = p[j - 1]
-        if target[j] == target[i]:
+        if pattern[j] == pattern[i]:
             j += 1
         p[i] = j
     return p
 
 
-def kmp(text, target, start=0):
+def kmp(text, pattern, start=0):
     # only return first target index
-    pre = pre_process(target)
-    p, len_tar = 0, len(target)
+    pre = pre_process(pattern)
+    p, len_tar = 0, len(pattern)
     for i in range(start, len(text)):
-        while p > 0 and target[p] != text[i]:
+        while p > 0 and pattern[p] != text[i]:
             p = pre[p - 1]
-        if target[p] == text[i]:
+        if pattern[p] == text[i]:
             p += 1
         if p == len_tar:
             return i - len_tar + 1 - start
