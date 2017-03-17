@@ -1,40 +1,54 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-def preprocess(tarStr):
-	# get next offset to compare
-    sLen = len(tarStr)
-    p = [0] * sLen
-    j = 0
-    for i in range(1, sLen):
-        while j > 0  and  tarStr[j] != tarStr[i]:
+"""
+    Knuth-Morris-Pratt
+"""
+import unittest
+
+
+def pre_process(target):
+    # get next offset (k) to compare
+    # target[0 ~ k-1] == target[j-k ~ j-1]
+    j, p = 0, [0] * len(target)
+    for i in range(1, len(target)):
+        while j > 0 and target[j] != target[i]:
             j = p[j - 1]
-        if tarStr[j] == tarStr[i]:
+        if target[j] == target[i]:
             j += 1
         p[i] = j
     return p
 
-def kmp(findStr, tarStr, start = 0):
-	# only return first begin index
-    pre = preprocess(tarStr)
-    tLen = len(tarStr)
-    p = 0
-    for i in range(start, len(findStr)):
-        while p > 0 and tarStr[p] != findStr[i]:
+
+def kmp(text, target, start=0):
+    # only return first target index
+    pre = pre_process(target)
+    p, len_tar = 0, len(target)
+    for i in range(start, len(text)):
+        while p > 0 and target[p] != text[i]:
             p = pre[p - 1]
-        if tarStr[p] == findStr[i]:
+        if target[p] == text[i]:
             p += 1
-        if p == tLen:
-            return i - tLen + 1 - start
+        if p == len_tar:
+            return i - len_tar + 1 - start
     return -1
 
-import unittest
-class kmpTest(unittest.TestCase):
+
+class KMPTest(unittest.TestCase):
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+
     def test_pre(self):
-        self.assertEqual(preprocess('ababacb'), [0,0,1,2,3,0,0])
+        self.assertEqual(pre_process('ababacb'), [0, 0, 1, 2, 3, 0, 0])
+
     def test_kmp(self):
-        self.assertEqual(kmp('aababacb', 'ababac', start = 1), 0)
+        self.assertEqual(kmp('aababacb', 'ababac', start=1), 0)
+
     def test_kmp2(self):
         self.assertEqual(kmp('aababacb', 'acb'), 5)
+
 
 if __name__ == '__main__':
     unittest.main()
