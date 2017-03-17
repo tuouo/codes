@@ -1,30 +1,35 @@
 #!/usr/bin/env python3 
 # -*- coding:utf-8 -*-
-def BoyerMooreHorspool(findStr, tarStr, start = 0):
-    sLen = len(findStr)
-    tLen = len(tarStr)
-    if tLen > sLen: return -1
-    skip =  [tLen] * 256	# treat as ascII, not utf-8
-    for i in range(tLen - 1): skip[ord(tarStr[i])] = tLen - i - 1
-    #skip = tuple(skip)
-    k = tLen - 1 + start
-    while k < sLen:
-        i = k
-        j = tLen - 1;
-        while j >= 0 and findStr[i] == tarStr[j]:
-            j -= 1;
-            i -= 1;
-        if j == -1: return i + 1 - start
-        k += skip[ord(findStr[k])]
+import unittest
+from collections import defaultdict
+
+
+def horspool(text, pattern, start=0):
+    len_text, len_tar = len(text), len(pattern)
+    if len_tar > len_text:
+        return -1
+    skip = defaultdict(lambda: len_tar)
+    for i in range(len_tar - 1):
+        skip[pattern[i]] = len_tar - 1 - i
+
+    pos = len_tar - 1 + start
+    while pos < len_text:
+        t, p = pos, len_tar - 1
+        while p >= 0 and text[t] == pattern[p]:
+            t, p = t - 1, p - 1
+        if p == -1:
+            return t + 1 - start
+        pos += skip[text[pos]]
     return -1
 
 
-import unittest
-class bmhTest(unittest.TestCase):
+class HorspoolTest(unittest.TestCase):
     def test_bmh(self):
-        self.assertEqual(BoyerMooreHorspool('aababacb', 'ababac', start = 1), 0)
+        self.assertEqual(horspool('aababacb', 'ababac', start=1), 0)
+
     def test_bmh2(self):
-        self.assertEqual(BoyerMooreHorspool('aababacb', 'acb'), 5)
+        self.assertEqual(horspool('aababacb', 'acb'), 5)
+
 
 if __name__ == '__main__':
     unittest.main()
