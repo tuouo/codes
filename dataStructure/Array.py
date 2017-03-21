@@ -23,7 +23,7 @@ class Array:
         assert 0 <= index < len(self), "out of range"
         self._elements[index] = value
 
-    def clear(self, value):
+    def clear(self, value=None):
         """ reset each to value """
         for _ in range(len(self)):
             self._elements[_] = value
@@ -72,7 +72,7 @@ class Array2D:
     def num_col(self):
         return len(self._rows[0])
 
-    def clear(self, value):
+    def clear(self, value=None):
         for row in self._rows:
             row.clear(value)
 

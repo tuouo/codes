@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # 2017/3/19
+import Array
 
 
 class Queue:
@@ -36,7 +37,7 @@ class QueueCircular:
     def __init__(self, size):
         self._start = 0
         self._end = 0
-        self._array = _Array(size)
+        self._array = Array.Array(size)
 
     def is_empty(self):
         return self._start == self._end
@@ -57,52 +58,6 @@ class QueueCircular:
         item = self._array[self._start]
         self._start = (self._start + 1) % len(self._array)
         return item
-
-
-class _Array:
-    def __init__(self, size):
-        assert size > 0, "array size must be >0"
-        import ctypes
-        self._size = size
-        py_array_type = ctypes.py_object * size
-        self._elements = py_array_type()
-        self.clear()
-
-    def __len__(self):
-        return self._size
-
-    def __getitem__(self, index):
-        assert 0 <= index < len(self), "out of range"
-        return self._elements[index]
-
-    def __setitem__(self, index, value):
-        assert 0 <= index < len(self), "out of range"
-        self._elements[index] = value
-
-    def clear(self, value=None):
-        """ reset each to value """
-        for _ in range(len(self)):
-            self._elements[_] = value
-
-    def __iter__(self):
-        return _ArrayIterator(self._elements)
-
-
-class _ArrayIterator:
-    def __init__(self, items):
-        self._items = items
-        self._idx = 0
-
-    def __iter__(self):
-        return self
-
-    def __next__(self):
-        if self._idx < len(self._items):
-            val = self._items[self._idx]
-            self._idx += 1
-            return val
-        else:
-            raise StopIteration
 
 
 class QueueLinked:
@@ -180,7 +135,7 @@ class PriorityQueueBounded:
     """
     def __init__(self, max_priority):
         self._size = 0
-        self._levels = _Array(max_priority)
+        self._levels = Array.Array(max_priority)
         for i in range(max_priority):
             self._levels[i] = QueueLinked()
 
