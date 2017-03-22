@@ -1,10 +1,13 @@
-#！/usr/bin/env/python3
+# ！/usr/bin/env/python3
 # -*- coding: utf-8 -*-
+import unittest
 
-def binarySearch(arr, target):
-    return binSearchLeft(arr, target, 0, len(arr) - 1)
 
-def binSearchLeft(arr, target, start, end):
+def search(arr, target):
+    return bin_search_left(arr, target, 0, len(arr) - 1)
+
+
+def bin_search_left(arr, target, start, end):
     left, right = start - 1, end + 1
     while left + 1 != right:
         mid = left + ((right - left) >> 1)
@@ -16,7 +19,8 @@ def binSearchLeft(arr, target, start, end):
         return - right - 1
     return right
 
-def binSearchRight(arr, target, start, end):
+
+def bin_search_right(arr, target, start, end):
     left, right = start - 1, end + 1
     while left + 1 != right:
         mid = left + ((right - left) >> 1)
@@ -24,25 +28,25 @@ def binSearchRight(arr, target, start, end):
             right = mid
         else:
             left = mid
-    if left < 0 or arr[left] != target:
-        print("left, right:", left, right, )
+    if left < start or arr[left] != target:
         return - left - 2
     return left
 
-import unittest
-class tBinSearch(unittest.TestCase):
+
+class Search(unittest.TestCase):
     def setUp(self):
-        self.arr = [3,5,5,5,5,5,5,5,5,5,5,5,7]
+        self.arr = [3, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 7]
 
     def test_insert(self):
-        self.assertEqual(binarySearch(self.arr, 2), -1)
-        self.assertEqual(binarySearch(self.arr, 3), 0)
-        self.assertEqual(binarySearch(self.arr, 4), -2)
-        #self.assertEqual(binarySearch(self.arr, 5), 1)
-        self.assertEqual(binarySearch(self.arr, 5), 11)
-        self.assertEqual(binarySearch(self.arr, 6), -13)
-        self.assertEqual(binarySearch(self.arr, 7), 12)
-        self.assertEqual(binarySearch(self.arr, 8), -14)
+        self.assertEqual(search(self.arr, 2), -1)
+        self.assertEqual(search(self.arr, 3), 0)
+        self.assertEqual(search(self.arr, 4), -2)
+        self.assertEqual(search(self.arr, 5), 1)
+        # self.assertEqual(search(self.arr, 5), 11)
+        self.assertEqual(search(self.arr, 6), -13)
+        self.assertEqual(search(self.arr, 7), 12)
+        self.assertEqual(search(self.arr, 8), -14)
+
 
 if __name__ == '__main__':
     unittest.main()
