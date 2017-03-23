@@ -15,7 +15,11 @@ def rb(text, pattern, start=0):
     hash_par = functools.reduce(lambda total, char: (total * NUM + ord(char)) % PRIME, pattern, 0)
     hash_new = functools.reduce(lambda total, char: (total * NUM + ord(char)) % PRIME, text[start:start+len_par], 0)
     if hash_par == hash_new:
-        return 0
+        for pos in range(len_par):
+            if text[start + pos] != pattern[pos]:
+                break
+        if pos == len_par - 1:
+            return 0
     for i in range(start + 1, len_text - len_par + 1):
         hash_new = (hash_new * NUM + ord(text[i+len_par-1]) - ord(text[i-1]) * NUM_L) % PRIME
         if hash_par == hash_new:
