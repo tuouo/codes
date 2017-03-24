@@ -10,7 +10,7 @@ def search(arr, target):
 def bin_search_left(arr, target, start, end):
     left, right = start - 1, end + 1
     while left + 1 != right:
-        mid = (right + left) / 2
+        mid = left + ((right - left) >> 1)
         if target > arr[mid]:
             left = mid
         else:
@@ -23,7 +23,7 @@ def bin_search_left(arr, target, start, end):
 def bin_search_right(arr, target, start, end):
     left, right = start - 1, end + 1
     while left + 1 != right:
-        mid = (right + left) / 2
+        mid = left + ((right - left) >> 1)
         if target < arr[mid]:
             right = mid
         else:
