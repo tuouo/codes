@@ -4,10 +4,23 @@ import unittest
 
 
 def search(arr, target):
-    return bin_search_left(arr, target, 0, len(arr) - 1)
+    return bin_search_left2(arr, target, 0, len(arr) - 1)
 
 
-def bin_search_left(arr, target, start, end):
+def bin_search_left(arr, target, left, right):
+    end = right
+    while left <= right:
+        mid = (right + left) // 2
+        if target > arr[mid]:
+            left = mid + 1
+        else:
+            right = mid - 1
+    if left > end or arr[left] != target:
+        return - left - 1
+    return left
+
+
+def bin_search_left2(arr, target, start, end):
     left, right = start - 1, end + 1
     while left + 1 != right:
         mid = left + ((right - left) >> 1)
@@ -48,5 +61,17 @@ class Search(unittest.TestCase):
         self.assertEqual(search(self.arr, 8), -14)
 
 
+def test_bin_search_left(arr, target):
+    bin_search_left(arr, target, 0, len(arr))
+
+
+def test_bin_search_left2(arr, target):
+    bin_search_left2(arr, target, 0, len(arr))
+
+
 if __name__ == '__main__':
-    unittest.main()
+    # unittest.main()
+    import timeit
+    print("start")
+    print(timeit.timeit("test_bin_search_left()", setup="from __main__ import test_bin_search_left"))
+    print(timeit.timeit("test_bin_search_left2()", setup="from __main__ import test_bin_search_left2"))
