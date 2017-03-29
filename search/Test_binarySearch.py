@@ -56,19 +56,20 @@ def bin_search_left3(arr, target, start, end):
 
 
 def test_bin_search_left(arr, target):
-    bin_search_left(arr, target, 0, len(arr))
+    bin_search_left(arr, target, 0, len(arr) - 1)
 
 
 def test_bin_search_left1(arr, target):
-    bin_search_left1(arr, target, 0, len(arr))
+    bin_search_left1(arr, target, 0, len(arr) - 1)
 
 
 def test_bin_search_left2(arr, target):
-    bin_search_left2(arr, target, 0, len(arr))
+    bin_search_left2(arr, target, 0, len(arr) - 1)
 
 
 def test_bin_search_left3(arr, target):
-    bin_search_left3(arr, target, 0, len(arr))
+    bin_search_left3(arr, target, 0, len(arr) - 1)
+
 
 if __name__ == '__main__':
     import timeit
