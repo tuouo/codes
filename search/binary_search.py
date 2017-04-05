@@ -67,19 +67,11 @@ class Search(unittest.TestCase):
         self.assertEqual(search(self.arr, 2), 0)
         self.assertEqual(search(self.arr, 3), 0)
         self.assertEqual(search(self.arr, 4), -1)
-        # self.assertEqual(search(self.arr, 5), 1)
-        self.assertEqual(search(self.arr, 5), 11)
+        self.assertEqual(search(self.arr, 5), 1)
+        # self.assertEqual(search(self.arr, 5), 11)
         self.assertEqual(search(self.arr, 6), -12)
         self.assertEqual(search(self.arr, 7), 12)
         self.assertEqual(search(self.arr, 8), -13)
-
-
-def test_bin_search_left(arr, target):
-    bin_search_left(arr, target, 0, len(arr))
-
-
-def test_bin_search_left2(arr, target):
-    bin_search_left2(arr, target, 0, len(arr))
 
 
 if __name__ == '__main__':
