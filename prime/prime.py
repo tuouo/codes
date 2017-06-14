@@ -7,7 +7,7 @@ import unittest
 def primes(n):
     arr = [True if i % 2 and i % 3 else False for i in range(n)]
     arr[1], arr[2], arr[3] = False, True, True
-    for i in range(5, int(n ** 0.5)):
+    for i in range(5, int(n ** 0.5) + 1):
         if arr[i]:
             arr[i*i:n:i] = [False] * ((n - 1) // i - i + 1)
     return arr, arr.count(True)
