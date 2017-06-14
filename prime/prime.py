@@ -7,10 +7,10 @@ import unittest
 def primes(n):
     arr = [True] * n
     arr[0] = arr[1] = False
-    for i in range(2, int(n ** 0.5) + 1):
+    for i in range(2, int((n - 1) ** 0.5) + 1):
         if arr[i]:
             arr[i*i:n:i] = [False] * ((n - 1) // i - i + 1)
-    return arr, arr.count(True)
+    return arr, sum(arr)
 
 
 def primes_old(n):
