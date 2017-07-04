@@ -1,2 +1,2 @@
-# codeLibrary
+# code library
 Implement algorithm.
