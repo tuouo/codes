@@ -1,13 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import unittest
-
-
-class Node:
-    def __init__(self, value=None, left=None, right=None):
-        self.value = value
-        self.left = left
-        self.right = right
+from data_structure.node import BinaryTreeNode as Node
 
 
 def traverse_pre(root):
