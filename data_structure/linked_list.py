@@ -17,8 +17,8 @@ class LinkedList:
             cur = cur.next
         return ' -> '.join(map(str, values))
 
-    def __eq__(self, other):
-        cur, compare = self.head, other.head
+    def __eq__(self, other_list):
+        cur, compare = self.head, other_list.head
         while cur and compare:
             if cur.data != compare.data:
                 return False
@@ -111,6 +111,80 @@ class LinkedList:
             tmp, new = origin, tmp
         return self
 
+    def sort(self):
+        if self.head is None:
+            return None
+        values, cur = [], self.head
+        while cur:
+            values.append(cur.data)
+            cur = cur.next
+        cur = self.head
+        for value in sorted(values):
+            cur.data = value
+            cur = cur.next
+        return self
+
+    def merge_sorted(self, other_list):
+        if not other_list:
+            return self
+        sentry = cur = Node(0)
+        first, second = self.head, other_list.head
+        while first and second:
+            if second.data > first.data:
+                cur.next, cur, first = first, first, first.next
+            else:
+                cur.next, cur, second = second, second, second.next
+        self.head = sentry.next
+        cur.next = first if first else second
+        while cur.next:
+            cur = cur.next
+        self.tail = cur
+        return self
+
+    def delete_sorted_duplicate(self):
+        if self.head is None:
+            return self
+        pre, behind = self.head, self.head.next
+        while behind:
+            if pre.data == behind.data:
+                behind = pre.next = behind.next
+            else:
+                pre, behind = behind, behind.next
+        self.tail = pre
+        return self
+
+    def has_cycle(self):
+        fast = slow = self.head
+        while fast.next and fast.next.next:
+            fast, slow = fast.next.next, slow.next
+            if fast.real_equal(slow):
+                return True
+        else:
+            return False
+
+    def merge_point(self, other_list):
+        length1 = length2 = 0
+        move = self.head
+        while move:
+            move = move.next
+            length1 += 1
+        move = other_list.head
+        while move:
+            move = move.next
+            length2 += 1
+        move1, move2 = self.head, other_list.head
+        if length1 > length2:
+            while length2 != length1:
+                move1 = move1.next
+                length1 -= 1
+        else:
+            while length2 != length1:
+                move2 = move2.next
+                length2 -= 1
+        while move1.data != move2.data:
+            move1, move2 = move1.next, move2.next
+        return move1.data
+
 
 if __name__ == '__main__':
     linked = LinkedList(1)
@@ -155,3 +229,27 @@ if __name__ == '__main__':
     assert linked == other
     other.tail.data = 1
     assert linked != other
+
+    linked.sort()
+    assert str(linked) == '0 -> 1 -> 2'
+    other.insert_head(9)
+    linked.merge_sorted(other.sort())
+    assert str(linked) == '0 -> 1 -> 1 -> 1 -> 2 -> 2 -> 9'
+    assert (linked.head.data, linked.tail.data) == (0, 9)
+    other = LinkedList(4)
+    other.tail.next = linked.head.next.next.next.next
+    assert linked.merge_point(other) == 2
+    other.tail.next = linked.head.next.next.next
+    assert linked.merge_point(other) == 1
+
+    linked.insert(9)
+    assert linked.has_cycle() is False
+    linked.delete_sorted_duplicate()
+    assert str(linked) == '0 -> 1 -> 2 -> 9'
+    assert (linked.head.data, linked.tail.data) == (0, 9)
+    sentry = linked.head.next.next
+    linked.tail.next = sentry
+    assert linked.has_cycle() is True
+    linked.tail.next = None
+
+

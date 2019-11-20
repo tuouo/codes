@@ -15,6 +15,9 @@ class Node:
     def __eq__(self, other):
         return self.data == other.data
 
+    def real_equal(self, other):
+        return id(self) == id(other)
+
 
 class BinaryTreeNode:
     def __init__(self, value=None, left=None, right=None):
