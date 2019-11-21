@@ -32,6 +32,9 @@ class BinaryTreeNode(Node):
         self.left = left
         self.right = right
 
+    def __eq__(self, other):
+        return id(self) == id(other)
+
 
 if __name__ == '__main__':
     pass
