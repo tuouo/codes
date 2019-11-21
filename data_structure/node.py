@@ -19,7 +19,14 @@ class Node:
         return id(self) == id(other)
 
 
-class BinaryTreeNode:
+class NodeDoubly(Node):
+    def __init__(self, node_data, next_node=None, pre_node=None):
+        self.data = node_data
+        self.pre = pre_node
+        self.next = next_node
+
+
+class BinaryTreeNode(Node):
     def __init__(self, value=None, left=None, right=None):
         self.value = value
         self.left = left
