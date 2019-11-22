@@ -36,5 +36,30 @@ class BinaryTreeNode(Node):
         return id(self) == id(other)
 
 
+class HuffmanNode(Node):
+    def __init__(self, freq, data, count):
+        self.data = data
+        self.freq = freq
+        self.left = None
+        self.right = None
+        self.count = count
+
+    def __lt__(self, other):
+        if self.freq != other.freq:
+            return self.freq < other.freq
+        return self.count < other.count
+
+    def __gt__(self, other):
+        if self.freq != other.freq:
+            return self.freq > other.freq
+        return self.count > other.count
+
+    def __eq__(self, other):
+        return self.freq == other.freq and self.count == other.count
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
+
 if __name__ == '__main__':
     pass
