@@ -8,26 +8,26 @@ class BinarySearchTree:
     def __init__(self, root=None):
         self.root = root
 
-    def build(self, val):
+    def insert(self, val):
         if self.root is None:
             self.root = Node(val)
-        else:
-            cur = self.root
-            while True:
-                if val < cur.value:
-                    if cur.left:
-                        cur = cur.left
-                    else:
-                        cur.left = Node(val)
-                        return True
-                elif val > cur.value:
-                    if cur.right:
-                        cur = cur.right
-                    else:
-                        cur.right = Node(val)
-                        return True
+            return True
+        cur = self.root
+        while True:
+            if val < cur.value:
+                if cur.left:
+                    cur = cur.left
                 else:
-                    return False
+                    cur.left = Node(val)
+                    return True
+            elif val > cur.value:
+                if cur.right:
+                    cur = cur.right
+                else:
+                    cur.right = Node(val)
+                    return True
+            else:
+                return False
         return True
 
     def traverse_mid(self):
@@ -372,7 +372,7 @@ class TestBinaryTreeClass(unittest.TestCase):
     def setUp(self):
         tree = BinarySearchTree()
         for i in 'DBACEGF':
-            tree.build(i)
+            tree.insert(i)
         self.tree = tree
         self.resultPre = list("DBACEGF")
         self.resultMid = list("ABCDEFG")

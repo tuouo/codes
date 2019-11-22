@@ -61,5 +61,11 @@ class HuffmanNode(Node):
         return not self.__eq__(other)
 
 
+class BinaryBalancingTreeNode(BinaryTreeNode):
+    def __init__(self, node_data, height=None, left=None, right=None):
+        super().__init__(node_data, left, right)
+        self.height = height
+
+
 if __name__ == '__main__':
     pass
