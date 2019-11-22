@@ -31,8 +31,7 @@ class HuffmanTree(Node):
             count += 1
             obj = Node(a[0] + b[0], None, count)
             obj.left, obj.right = a[2], b[2]
-            h[0] = (obj.freq, obj.data, obj)
-            heapq.heapify(h)
+            heapq.heapreplace(h, (obj.freq, obj.data, obj))
 
         root = h[0]
         root = root[2]  # contains root object
