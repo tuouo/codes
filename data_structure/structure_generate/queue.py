@@ -30,6 +30,33 @@ class Queue:
         return self._queue.pop(0)
 
 
+class QueueByStack:
+    def __init__(self, head=None, tail=None):
+        # head, tail correspond real part of stack
+        self.head = [h for h in head] if head else []
+        self.tail = [t for t in tail] if tail else []
+
+    def enqueue(self, value):
+        self.tail.append(value)
+
+    def dequeue(self):
+        assert self.head or self.tail,  'Stack is empty.'
+        if self.head:
+            return self.head.pop()
+        else:
+            self.head = self.tail[:0:-1]  # real start: real end: step
+            value = self.tail[0]
+            self.tail = []
+            return value
+
+    def get_front(self):
+        assert self.head or self.tail,  'Stack is empty.'
+        if not self.head:
+            self.head = self.tail[::-1]
+            self.tail = []
+        return self.head[-1]
+
+
 class QueueCircular:
     """
     circular Array. length limited, append, po O(1)
