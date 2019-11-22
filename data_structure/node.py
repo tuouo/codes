@@ -67,5 +67,13 @@ class BinaryBalancingTreeNode(BinaryTreeNode):
         self.height = height
 
 
+class TrieNode(Node):
+    def __init__(self, char=''):
+        self.char = char
+        self.count = 0
+        self.starts = 0
+        self.children = {}
+
+
 if __name__ == '__main__':
     pass
