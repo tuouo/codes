@@ -67,89 +67,89 @@ class BinarySearchTree:
         return result
 
     def in_order(self):
-        result = []
-        if self.root:
-            cur, tra_tack = self.root, []
-            while cur or tra_tack:
-                while cur:
-                    tra_tack.append(cur)
-                    cur = cur.left
-                cur = tra_tack.pop()
-                result.append(cur.value)
-                cur = cur.right
+        if not self.root:
+            return []
+        result, cur, tra_tack = [], self.root, []
+        while cur or tra_tack:
+            while cur:
+                tra_tack.append(cur)
+                cur = cur.left
+            cur = tra_tack.pop()
+            result.append(cur.value)
+            cur = cur.right
         return result
 
     def pre_order_base(self):
-        result = []
-        if self.root:
-            later_stack = [self.root]
-            while later_stack:
-                cur = later_stack.pop()
-                result.append(cur.value)
-                if cur.right:
-                    later_stack.append(cur.right)
-                if cur.left:
-                    later_stack.append(cur.left)
+        if not self.root:
+            return []
+        result, later_stack = [], [self.root]
+        while later_stack:
+            cur = later_stack.pop()
+            result.append(cur.value)
+            if cur.right:
+                later_stack.append(cur.right)
+            if cur.left:
+                later_stack.append(cur.left)
         return result
 
     def pre_order(self):
-        result = []
-        if self.root:
-            cur, tra_tack = self.root, []
-            while cur or tra_tack:
-                while cur:
-                    result.append(cur.value)
-                    tra_tack.append(cur)
-                    cur = cur.left
-                cur = tra_tack.pop().right
+        if not self.root:
+            return []
+        result, cur, tra_tack = [], self.root, []
+        while cur or tra_tack:
+            while cur:
+                result.append(cur.value)
+                tra_tack.append(cur)
+                cur = cur.left
+            cur = tra_tack.pop().right
         return result
 
     def post_order(self):
-        result = []
-        if self.root:
-            cur, tra_tack = self.root, []
-            while cur or tra_tack:
-                while cur:
-                    result.append(cur.value)
-                    tra_tack.append(cur)
-                    cur = cur.right
-                cur = tra_tack.pop().left
+        if not self.root:
+            return []
+        result, cur, tra_tack = [], self.root, []
+        while cur or tra_tack:
+            while cur:
+                result.append(cur.value)
+                tra_tack.append(cur)
+                cur = cur.right
+            cur = tra_tack.pop().left
         return result[::-1]
 
     def post_order_base(self):
-        result = []
-        if self.root:
-            later_stack = [self.root]
-            while later_stack:
-                cur = later_stack.pop()
-                result.append(cur.value)
-                if cur.left:
-                    later_stack.append(cur.left)
-                if cur.right:
-                    later_stack.append(cur.right)
+        if not self.root:
+            return []
+        result, later_stack = [], [self.root]
+        while later_stack:
+            cur = later_stack.pop()
+            result.append(cur.value)
+            if cur.left:
+                later_stack.append(cur.left)
+            if cur.right:
+                later_stack.append(cur.right)
         return result[::-1]
 
     def post_order_origin(self):
-        result = []
-        if self.root:
-            visit, cur, tra_tack = None, self.root, []
-            while cur or tra_tack:
-                while cur:
-                    tra_tack.append(cur)
-                    cur = cur.left
-                cur = tra_tack[-1]
-                if cur.right is None or cur.right == visit:
-                    result.append(cur.value)
-                    tra_tack.pop()
-                    visit = cur
-                    cur = None
-                else:
-                    cur = cur.right
+        if not self.root:
+            return []
+        result, visit, cur, tra_tack = [], None, self.root, []
+        while cur or tra_tack:
+            while cur:
+                tra_tack.append(cur)
+                cur = cur.left
+            cur = tra_tack[-1]
+            if cur.right is None or cur.right == visit:
+                result.append(cur.value)
+                tra_tack.pop()
+                visit = cur
+                cur = None
+            else:
+                cur = cur.right
         return result
 
     @classmethod
     def get_after_traversed(cls, pre, mid):
-        if len(pre) == 0:
+        if not pre:
             return []
         elif len(pre) == 1:
             return [pre[0]]
@@ -179,17 +179,49 @@ class BinarySearchTree:
         return 1 + cls._get_node_num(root.left) + cls._get_node_num(root.right)
 
     def traverse_level(self):
-        result = []
-        if self.root:
-            cur = [self.root]
-            while cur:
-                p = cur.pop(0)
-                result.append(p.value)
-                if p.left:
-                    cur.append(p.left)
-                if p.right:
-                    cur.append(p.right)
+        if not self.root:
+            return []
+        result, cur = [], [self.root]
+        while cur:
+            p = cur.pop(0)
+            result.append(p.value)
+            if p.left:
+                cur.append(p.left)
+            if p.right:
+                cur.append(p.right)
         return result
+
+    def is_binary_search_ok(self):
+        if not self.root:
+            return False
+        nodes, cur, value = [], self.root, None
+        while nodes or cur:
+            while cur:
+                nodes.append(cur)
+                cur = cur.left
+            cur = nodes.pop()
+            if value and value >= cur.value:
+                return False
+            else:
+                value = cur.value
+            cur = cur.right
+        return True
+
+    def lowest_common_ancestor(self, a, b):
+        if not self.root:
+            return
+        if a > b:
+            a, b = b, a
+        cur = self.root
+        while cur:
+            value = cur.value
+            if value > b:
+                cur = cur.left
+            elif value < a:
+                cur = cur.right
+            else:
+                return cur
+        return
 
 
 def traverse_pre(root):
@@ -365,6 +397,14 @@ class TestBinaryTreeClass(unittest.TestCase):
         self.assertEqual(self.tree.traverse_level(), self.resultLev)
         self.assertEqual(self.tree.get_depth(), 4)
         self.assertEqual(self.tree.get_node_num(), 7)
+
+    def test_binary(self):
+        self.assertTrue(self.tree.is_binary_search_ok())
+        self.tree.root.value = 'F'
+        self.assertFalse(self.tree.is_binary_search_ok())
+        self.tree.root.value = 'D'
+        self.assertEqual(self.tree.lowest_common_ancestor('C', 'A').value, 'B')
+        self.assertEqual(self.tree.lowest_common_ancestor('F', 'A').value, 'D')
 
 
 class TestBinaryTree(unittest.TestCase):
