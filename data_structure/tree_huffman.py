@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # author: young
 # date: 2019/11/22
-import queue
+import heapq
 import unittest
 from data_structure.node import HuffmanNode as Node
 
@@ -20,21 +20,21 @@ class HuffmanTree(Node):
 
     @staticmethod
     def build_tree(freq):
-        count = 0
-        q = queue.PriorityQueue()
+        count, h = 0, []
         for key, value in freq.items():
             count += 1
-            q.put((value, key, Node(value, key, count)))
+            heapq.heappush(h, (value, key, Node(value, key, count)))
 
-        while q.qsize() != 1:
-            a = q.get()
-            b = q.get()  # replace b by obj?
+        while len(h) != 1:
+            a = heapq.heappop(h)
+            b = h[0]
             count += 1
             obj = Node(a[0] + b[0], None, count)
             obj.left, obj.right = a[2], b[2]
-            q.put((obj.freq, obj.data, obj))
+            h[0] = (obj.freq, obj.data, obj)
+            heapq.heapify(h)
 
-        root = q.get()
+        root = h[0]
         root = root[2]  # contains root object
         return root
 
