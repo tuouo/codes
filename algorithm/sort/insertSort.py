@@ -13,6 +13,16 @@ def sort(arr):
     return arr
 
 
+def sort2(arr):
+    for i in range(1, len(arr)):
+        j, check = i - 1, arr[i]
+        while j >= 0 and arr[j] > check:
+            arr[j + 1] = arr[j]
+            j -= 1
+        arr[j + 1] = check
+    return arr
+
+
 class TestSort(unittest.TestCase):
     def setUp(self):
         self.arr = [3, 5, 9, 8, 4, 2, 1, 0, -6, 12, -8]
@@ -20,6 +30,7 @@ class TestSort(unittest.TestCase):
 
     def test_insert(self):
         self.assertEqual(sort(self.arr), self.result)
+        self.assertEqual(sort2(self.arr), self.result)
 
 
 if __name__ == '__main__':
