@@ -46,6 +46,47 @@ class UnionFindList:
         return self.count
 
 
+class UnionFindDict:
+    def __init__(self):
+        self.group = {}
+        self.size = {}
+        self.count = 0
+
+    def is_connected(self, a, b):
+        return self.find(a) == self.find(b)
+
+    def find(self, a):
+        if a not in self.group:
+            self.group[a], self.size[a] = a, 1
+            self.count += 1
+            return a
+        t = a
+        while t != self.group[t]:
+            t = self.group[t]
+        while a != self.group[a]:
+            near = self.group[a]
+            self.group[a] = near
+            a = near
+        return t
+
+    def union(self, a, b):
+        A, B = self.find(a), self.find(b)
+        if A == B:
+            return A
+        if self.size[A] >= self.size[B]:
+            self.group[B] = A
+            self.size[A] += self.size[B]
+            del self.size[B]
+            self.count -= 1
+            return A
+        else:
+            self.group[A] = B
+            self.size[B] += self.size[A]
+            del self.size[A]
+            self.count -= 1
+            return B
+
+
 class TestDisjointSet(unittest.TestCase):
     def setUp(self):
         edges = ((1, 6), (2, 7), (3, 8), (4, 9), (2, 6))
