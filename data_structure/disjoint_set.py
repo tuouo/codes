@@ -29,18 +29,13 @@ class UnionFindList:
         t_a, t_b = self.find(a), self.find(b)
         if t_a == t_b:
             return t_a
-        if self.size[a] < self.size[b]:
-            self.group[t_a] = t_b
-            self.size[t_b] += self.size[t_a]
-            self.size[t_a] = 0
-            self.count -= 1
-            return t_b
-        else:
-            self.group[t_b] = t_a
-            self.size[t_a] += self.size[t_b]
-            self.size[t_b] = 0
-            self.count -= 1
-            return t_a
+        if self.size[t_a] < self.size[t_b]:
+            t_a, t_b = t_b, t_a
+        self.group[t_b] = t_a
+        self.size[t_a] += self.size[t_b]
+        self.size[t_b] = 0
+        self.count -= 1
+        return t_a
 
     def count(self):
         return self.count
@@ -73,18 +68,13 @@ class UnionFindDict:
         A, B = self.find(a), self.find(b)
         if A == B:
             return A
-        if self.size[A] >= self.size[B]:
-            self.group[B] = A
-            self.size[A] += self.size[B]
-            del self.size[B]
-            self.count -= 1
-            return A
-        else:
-            self.group[A] = B
-            self.size[B] += self.size[A]
-            del self.size[A]
-            self.count -= 1
-            return B
+        if self.size[A] < self.size[B]:
+            A, B = B, A
+        self.group[B] = A
+        self.size[A] += self.size[B]
+        del self.size[B]
+        self.count -= 1
+        return A
 
 
 class TestDisjointSet(unittest.TestCase):
